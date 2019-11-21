@@ -2,7 +2,7 @@
 
 import re
 import os.path
-import commands
+from subprocess import check_output, CalledProcessError
 
 from distutils.core import setup
 
@@ -10,10 +10,12 @@ class ExecError(Exception):
     pass
 
 def _getoutput(command):
-    status, output = commands.getstatusoutput(command)
-    if status != 0:
+    try:
+        output = check_output(command)
+    except CalledProcessError:
         raise ExecError()
-    return output
+
+    return output.decode()
 
 def get_version():
     if not os.path.exists("debian/changelog"):
@@ -50,7 +52,8 @@ def parse_email(email):
     return name.strip(), address.strip()
 
 def main():
-    control_fields = parse_control(file("debian/control").read())
+    with open("debian/control", "r") as fob:
+        control_fields = parse_control(fob.read())
     maintainer = control_fields['Maintainer']
     maintainer_name, maintainer_email = parse_email(maintainer)
 
