@@ -2,7 +2,7 @@
 
 import re
 import os.path
-import subprocess
+import commands
 
 from distutils.core import setup
 
@@ -10,7 +10,7 @@ class ExecError(Exception):
     pass
 
 def _getoutput(command):
-    status, output = subprocess.getstatusoutput(command)
+    status, output = commands.getstatusoutput(command)
     if status != 0:
         raise ExecError()
     return output
@@ -50,8 +50,7 @@ def parse_email(email):
     return name.strip(), address.strip()
 
 def main():
-    with open("debian/control", 'r') as fob:
-        control_fields = parse_control(fob.read())
+    control_fields = parse_control(file("debian/control").read())
     maintainer = control_fields['Maintainer']
     maintainer_name, maintainer_email = parse_email(maintainer)
 
