@@ -9,6 +9,7 @@ from urllib.parse import urlencode
 import json
 import re
 
+
 def _useragent():
     vi = pycurl.version_info()
     ua = "pycurl_wrapper: libcurl/%s %s %s" % (vi[1], vi[5], vi[3])
@@ -23,8 +24,10 @@ def _useragent():
 
     return ua
 
+
 USERAGENT = _useragent()
-    
+
+
 class Client:
     class Response(str):
         def __new__(cls, code, type, data):
@@ -104,11 +107,12 @@ class Client:
 
         return self._perform()
 
-# here for backwards compatibility 
-class Curl:
-    def __init__(self, url, headers={}, cainfo=None, verbose=False, timeout=None):
+
+class Curl:  # here for backwards compatibility
+    def __init__(self, url, headers={}, cainfo=None,
+                 verbose=False, timeout=None):
         """simplified wrapper to pycurl (get, post, put, delete)
-        
+
         Usage:
             print Curl(URL).get()
 
@@ -127,7 +131,7 @@ class Curl:
 
         self.url = url
         self.headers = headers
-            
+
     def _perform(self, methodname, attrs={}):
         method = getattr(self.client, methodname)
         response = method(self.url, attrs, self.headers)
@@ -151,6 +155,7 @@ class Curl:
 
     def delete(self, attrs={}):
         return self._perform('delete', attrs)
+
 
 class API:
     class Error(Exception):
@@ -185,9 +190,10 @@ class API:
         try:
             response = func(url, attrs, _headers)
         except Exception as e:
-            raise self.Error(self.ERROR, "exception", e.__class__.__name__ + repr(e.args))
+            raise self.Error(self.ERROR, "exception",
+                             e.__class__.__name__ + repr(e.args))
 
-        if not response.code in (self.ALL_OK, self.CREATED, self.DELETED):
+        if response.code not in (self.ALL_OK, self.CREATED, self.DELETED):
             name, description = response.data.decode().split(":", 1)
             raise self.Error(response.code, name, description)
 

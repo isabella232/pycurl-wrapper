@@ -1,3 +1,4 @@
+# Copyright (c) 2011-2020 TurnKey GNU/Linux <admin@turnkeylinux.org> - all rights reserved
 # Copyright (c) 2010 Liraz Siri <liraz@turnkeylinux.org> - all rights reserved
 
 import re
@@ -6,8 +7,10 @@ from subprocess import check_output, CalledProcessError
 
 from distutils.core import setup
 
+
 class ExecError(Exception):
     pass
+
 
 def _getoutput(command):
     try:
@@ -17,15 +20,17 @@ def _getoutput(command):
 
     return output.decode()
 
+
 def get_version():
     if not os.path.exists("debian/changelog"):
         return None
 
     output = _getoutput("dpkg-parsechangelog")
-    version = [ line.split(" ")[1]
-                for line in output.split("\n")
-                if line.startswith("Version:") ][0]
+    version = [line.split(" ")[1]
+               for line in output.split("\n")
+               if line.startswith("Version:")][0]
     return version
+
 
 def parse_control(control):
     """parse control fields -> dict"""
@@ -41,6 +46,7 @@ def parse_control(control):
 
     return d
 
+
 def parse_email(email):
     m = re.match(r'(.*)\s*<(.*)>', email.strip())
     if m:
@@ -51,14 +57,15 @@ def parse_email(email):
 
     return name.strip(), address.strip()
 
+
 def main():
     with open("debian/control", "r") as fob:
         control_fields = parse_control(fob.read())
     maintainer = control_fields['Maintainer']
     maintainer_name, maintainer_email = parse_email(maintainer)
 
-    setup(packages = [''],
-          package_dir = {'': 'pylib'},
+    setup(packages=[''],
+          package_dir={'': 'pylib'},
 
           # non-essential meta-data
           name=control_fields['Source'],
@@ -67,7 +74,6 @@ def main():
           maintainer_email=maintainer_email,
           description=control_fields['Description'])
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     main()
-
-
