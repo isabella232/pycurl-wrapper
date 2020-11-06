@@ -15,7 +15,6 @@ Depends:
  ${misc:Depends},
  ${python3:Depends},
  python3-pycurl,
- python3-simplejson,
 Suggests:
  python3-profiler,
 Description: Simplified wrapper for python3-pycurl (python3).
