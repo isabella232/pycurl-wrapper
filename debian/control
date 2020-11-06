@@ -1,7 +1,7 @@
-Source: pycurl-wrapper
+Source: py3curl-wrapper
 Section: python
 Priority: optional
-Maintainer: Alon Swartz <alon@turnkeylinux.org>
+Maintainer: Jeremy Davis <jeremy@turnkeylinux.org>
 Build-Depends:
  debhelper (>= 10),
  dh-python,
@@ -9,7 +9,7 @@ Build-Depends:
 Standards-Version: 4.0.0
 X-Python-Version: >= 3.5
 
-Package: pycurl-wrapper
+Package: py3curl-wrapper
 Architecture: any
 Depends:
  ${misc:Depends},
@@ -18,4 +18,4 @@ Depends:
  python3-simplejson,
 Suggests:
  python3-profiler,
-Description: Simplified wrapper for python3-pycurl
+Description: Simplified wrapper for python3-pycurl (python3).
