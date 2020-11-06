@@ -1,11 +1,12 @@
+# Copyright (c) 2014-2020 TurnKey GNU/Linux <admin@turnkeylinux.org> - all rights reserved
 # Copyright (c) 2013 Liraz Siri <liraz@turnkeylinux.org> - all rights reserved
-# Copyright (c) 2010 Alon Swartz <alon@turnkeylinux.org> - all rights reserved
+# Copyright (c) 2010-2012 Alon Swartz <alon@turnkeylinux.org> - all rights reserved
 import pycurl
 
 from io import BytesIO, StringIO
 from urllib.parse import urlencode
 
-import simplejson as json
+import json
 import re
 
 def _useragent():
